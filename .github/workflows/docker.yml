@@ -26,8 +26,8 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' || github.ref == 'refs/heads/dev' }}
 
 env:
-  IMAGE: ghcr.io/${{ github.repository }}
-  PUSH: ${{ github.event_name != 'pull_request' && !github.event.repository.fork }}
+  IMAGE: ghcr.io/mimoz1/homeassistant_espscreen_arm7v
+  PUSH: ${{ github.event_name != 'pull_request' }}
 
 jobs:
   image:
@@ -65,7 +65,7 @@ jobs:
       - uses: docker/build-push-action@v6
         with:
           context: screen_manager
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/arm/v7
           push: ${{ env.PUSH == 'true' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
