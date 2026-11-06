@@ -56,12 +56,8 @@ def available_mb(path='/proc/meminfo', cgroup='/sys/fs/cgroup'):
 
 
 def compilers(free_mb, cores):
-    """How many compilers fit at once: one for the heaviest file, one more for every EXTRA_MB beyond it, never more than
-    the cores (ninja would only queue them) and never fewer than one. Unknown memory means as many as there are cores."""
-    cores = max(1, int(cores or 1))
-    if free_mb is None:
-        return cores
-    return max(1, min(cores, 1 + max(0, free_mb - HEAVY_MB) // EXTRA_MB))
+    """How many compilers fit at once: forced to 1 (fork override - always use single compiler)."""
+    return 1
 
 
 def plan(cores, free_mb, limit=None):
